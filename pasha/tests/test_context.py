@@ -10,7 +10,7 @@ import pytest
 
 import numpy as np
 import pasha as psh
-from pasha.context import MapContext
+from pasha.context import MapContext, ThreadContext
 from pasha.functor import Functor
 
 
@@ -123,3 +123,12 @@ def test_set_default_context_string(ctx_str, expected_type):
 
     psh.set_default_context(ctx_str)
     assert isinstance(psh.get_default_context(), expected_type)
+
+
+@pytest.mark.parametrize(
+    ['num_workers', 'expected'], [(None, 1), (0, 1), (4, 4)])
+def test_array(num_workers, expected):
+    """Test ThreadContext validation."""
+
+    ctx = ThreadContext(num_workers=num_workers)
+    assert ctx.num_workers >= expected

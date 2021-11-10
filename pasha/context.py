@@ -159,9 +159,9 @@ class PoolContext(MapContext):
     """
 
     def __init__(self, num_workers=None):
-        from os import cpu_count
 
-        if num_workers is None:
+        if not num_workers:
+            from os import cpu_count
             num_workers = min(cpu_count() // 2, 10)
 
         super().__init__(num_workers=num_workers)
